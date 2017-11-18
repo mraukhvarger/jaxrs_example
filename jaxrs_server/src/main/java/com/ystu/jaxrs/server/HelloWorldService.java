@@ -25,9 +25,6 @@ public class HelloWorldService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response test() throws JSONException {
-        JSONObject result = new JSONObject();
-        result.put("list", Arrays.asList(1, 2, 3, 4));
-
         return Response.status(200).entity(Arrays.asList(1, 2, 3)).build();
     }
 
