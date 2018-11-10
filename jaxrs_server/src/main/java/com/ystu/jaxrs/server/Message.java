@@ -6,7 +6,10 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 @JsonSerialize(include= JsonSerialize.Inclusion.NON_NULL)
 public class Message {
 
-    String message;
+    private String message;
+
+    public Message() {
+    }
 
     public Message(String message) {
         this.message = message;

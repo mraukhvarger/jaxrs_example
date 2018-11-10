@@ -12,10 +12,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 @Path("/hello")
 public class HelloWorldService {
+
+
+    @POST
+    @Path("/msg")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response msg(Message msg) {
+        Map result = new HashMap();
+        result.put("message", msg.getMessage());
+        return Response.ok().entity(result).build();
+    }
+
 
     @GET
     @Path("/all")
