@@ -1,10 +1,13 @@
 package com.ystu.jaxrs.server;
 
 
+import com.sun.jersey.api.view.Viewable;
 import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.Connection;
@@ -44,7 +47,7 @@ public class HelloWorldService {
         DB db = new DB();
         Connection con = db.getDBConnection();
         Statement st = con.createStatement();
-        ResultSet res = st.executeQuery("select * from PERSON");
+        ResultSet res = st.executeQuery("select * from db.PERSON");
 
         return Response.status(200).entity(res.toString()).build();
 
@@ -65,5 +68,11 @@ public class HelloWorldService {
             @DefaultValue("user") @QueryParam("user") String user,
             @DefaultValue("") @QueryParam("x") String x) {
         return Response.status(200).entity("Hello, " + user + "<br>" + x).build();
+    }
+
+    @GET
+    @Path("/view")
+    public Viewable view(@Context HttpServletRequest req, @Context HttpServletResponse resp) {
+        return new Viewable("/index.jsp");
     }
 }
