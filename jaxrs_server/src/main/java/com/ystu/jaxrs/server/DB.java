@@ -7,24 +7,14 @@ import java.sql.*;
 public class DB {
 
     private static final String DB_DRIVER = "org.h2.Driver";
-    private static final String DB_CONNECTION = "jdbc:h2:~/test";
+    private static final String DB_CONNECTION = "jdbc:h2:mem:db;DB_CLOSE_DELAY=-1";
     private static final String DB_USER = "";
     private static final String DB_PASSWORD = "";
 
-    {
-        try {
-            insertWithStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void insertWithStatement() throws SQLException {
-        Connection connection = getDBConnection();
-        Statement stmt = null;
-        try {
-            connection.setAutoCommit(false);
-            stmt = connection.createStatement();
+    public void insertWithStatement() {
+        try(Connection connection = getDBConnection()) {
+            connection.setAutoCommit(true);
+            Statement stmt = connection.createStatement();
             stmt.execute("CREATE TABLE IF NOT EXISTS PERSON(id int primary key, name varchar(255))");
             stmt.execute("INSERT INTO PERSON(id, name) VALUES(1, 'Anju')");
             stmt.execute("INSERT INTO PERSON(id, name) VALUES(2, 'Sonia')");
@@ -35,14 +25,9 @@ public class DB {
             while (rs.next()) {
                 System.out.println("Id "+rs.getInt("id")+" Name "+rs.getString("name"));
             }
-            stmt.close();
             connection.commit();
-        } catch (SQLException e) {
-            System.out.println("Exception Message " + e.getLocalizedMessage());
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            connection.close();
+            System.out.println("Exception Message " + e.getLocalizedMessage());
         }
     }
 

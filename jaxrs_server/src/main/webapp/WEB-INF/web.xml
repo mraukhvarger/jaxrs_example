@@ -26,4 +26,10 @@
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>onstartup</servlet-name>
+        <servlet-class>com.ystu.jaxrs.server.OnStartupServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
 </web-app>

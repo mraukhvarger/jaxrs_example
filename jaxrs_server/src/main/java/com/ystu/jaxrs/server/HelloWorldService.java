@@ -14,9 +14,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Path("/hello")
 public class HelloWorldService {
@@ -42,14 +40,21 @@ public class HelloWorldService {
 
     @GET
     @Path("/query")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response query() throws SQLException {
 
         DB db = new DB();
         Connection con = db.getDBConnection();
         Statement st = con.createStatement();
-        ResultSet res = st.executeQuery("select * from db.PERSON");
+        ResultSet res = st.executeQuery("select * from PERSON");
 
-        return Response.status(200).entity(res.toString()).build();
+        List res_map = new ArrayList();
+        while (res.next()) {
+            res_map.add(res.getObject(2));
+        }
+
+        return Response.status(200).entity(res_map).build();
 
     }
 
